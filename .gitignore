@@ -1,0 +1,6 @@
+# OS trush file
+.DS_Store
+.keep
+
+# ubuntu log file
+*.log
