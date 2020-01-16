@@ -1,3 +1,6 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
 Vagrant.configure(2) do |config|
 	config.ssh.insert_key = false
 	config.ssh.private_key_path = "~/.vagrant.d/insecure_private_key"
