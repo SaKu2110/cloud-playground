@@ -1,0 +1,7 @@
+[common:children]
+master
+worker
+[master]
+192.0.2.101
+[worker]
+192.0.2.201

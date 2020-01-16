@@ -1,0 +1,33 @@
+- name: Import docker gpg key
+  apt_key:
+    url: "{{ docker_gpg_key_url }}"
+  register: result
+  until: result is succeeded
+
+- name: configure docker apt repo
+  apt_repository:
+    repo: "{{ docker_repository }}"
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: Install docker
+  package:
+    name: docker-ce
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Create docker service dir
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    mode: 0755
+
+- name: configure kubernetes apt repo
+  template:
+    src: etc/docker/daemon.json
+    dest: /etc/docker/daemon.json
+  notify:
+    - restart_docker

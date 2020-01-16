@@ -1,0 +1,21 @@
+- name: Import kubernetes gpg key
+  apt_key:
+    url: "{{ google_cloud_package_url }}"
+  register: result
+  until: result is succeeded
+
+- name: configure kubernetes apt repo
+  template:
+    src: etc/apt/sources.list.d/kubernetes.list
+    dest: /etc/apt/sources.list.d/kubernetes.list
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: Install kubernetes tools
+  package:
+    name: ['kubelet', 'kubeadm', 'kubectl']
+    state: present
+  register: result
+  until: result is succeeded

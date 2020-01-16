@@ -1,0 +1,4 @@
+---
+google_cloud_package_url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+docker_gpg_key_url: https://download.docker.com/linux/ubuntu/gpg
+docker_repository: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"

@@ -5,29 +5,21 @@ Vagrant.configure(2) do |config|
 
   	config.vm.define "target" do |node|
     	node.vm.box = "ubuntu/bionic64"
-        node.vm.hostname = "target"
+        node.vm.hostname = "master"
         node.vm.network :private_network, ip: "192.0.2.101"
-        node.vm.network :forwarded_port, id: "ssh", guest: 22, host: 2220
-
-		node.vm.provision :itamae do |itamae|
-			itamae.sudo = true
-			itamae.shell = '/bin/sh'
-			itamae.recipes = '../roles/master.rb'
-			itamae.json = '../nodes/node.json'
-		end
+		node.vm.network :forwarded_port, id: "ssh", guest: 22, host: 2220
 	end
 
-	config.vm.define "target-node" do |node|
-        node.vm.box = "ubuntu/bionic64"
-        node.vm.hostname = "target-node"
-        node.vm.network :private_network, ip: "192.0.2.201"
-        node.vm.network :forwarded_port, id: "ssh", guest: 22, host: 2230
+	config.vm.define 'target-node' do |node|
+        node.vm.box = 'ubuntu/bionic64'
+        node.vm.hostname = 'worker'
+        node.vm.network :private_network, ip: '192.0.2.201'
+		node.vm.network :forwarded_port, id: 'ssh', guest: 22, host: 2230
 
-		node.vm.provision :itamae do |itamae|
-			itamae.sudo = true
-			itamae.shell = '/bin/sh'
-			itamae.recipes = '../roles/master.rb'
-			itamae.json = '../nodes/node.json'
+		node.vm.provision 'ansible' do |ansible|
+			ansible.playbook = 'site.yml'
+			ansible.inventory_path = 'development'
+			ansible.limit = 'all'
 		end
 	end
 end
