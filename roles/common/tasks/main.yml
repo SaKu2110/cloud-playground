@@ -1,0 +1,41 @@
+---
+- name: Place MOTD file
+  copy:
+    src: etc/motd
+    dest: /etc/motd
+    mode: 0644
+
+- name: Override /etc/hosts
+
+- name: Install VIM
+  package:
+    name: vim
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Config default editor to VIM
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.basic
+
+- name: Install apt-transport-https
+  package:
+    name: "{{ item }}"
+    state: present
+  register: result
+  until: result is succeeded
+  with_items:
+    - curl
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+
+- name: Disable swap
+  import_tasks: swapoff.yml
+
+- name: Install kubernetes tools
+  import_tasks: kubernetes.yml
+
+- name: Install docker
+  import_tasks: docker.yml
