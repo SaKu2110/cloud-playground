@@ -7,9 +7,9 @@ Vagrant.configure(2) do |config|
 	config.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "/home/vagrant/.ssh/id_rsa"
 
   	config.vm.define "target" do |node|
-    	node.vm.box = "ubuntu/bionic64"
-        node.vm.hostname = "master"
-        node.vm.network :private_network, ip: "192.0.2.101"
+		node.vm.box = "ubuntu/bionic64"
+		node.vm.hostname = "master"
+		node.vm.network :private_network, ip: "192.0.2.101"
 		node.vm.network :forwarded_port, id: "ssh", guest: 22, host: 2220
 	end
 
