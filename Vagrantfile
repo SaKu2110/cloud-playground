@@ -14,9 +14,9 @@ Vagrant.configure(2) do |config|
 	end
 
 	config.vm.define 'target-node' do |node|
-        node.vm.box = 'ubuntu/bionic64'
-        node.vm.hostname = 'worker'
-        node.vm.network :private_network, ip: '192.0.2.201'
+		node.vm.box = 'ubuntu/bionic64'
+		node.vm.hostname = 'worker'
+		node.vm.network :private_network, ip: '192.0.2.201'
 		node.vm.network :forwarded_port, id: 'ssh', guest: 22, host: 2230
 
 		node.vm.provision 'ansible' do |ansible|
